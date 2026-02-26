@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title or "Ledger System" }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    </style>
+  </head>
+  <body class="bg-slate-100 text-slate-900">
+    <div class="min-h-screen">
+      <header class="bg-white shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div class="text-xl font-semibold">Ledger System</div>
+          {% if user %}
+          <nav class="flex gap-4 text-sm">
+            <a class="hover:text-slate-700" href="/">Dashboard</a>
+            <a class="hover:text-slate-700" href="/transactions">Transactions</a>
+            <a class="hover:text-slate-700" href="/budgets">Budgets</a>
+            <a class="hover:text-slate-700" href="/reports">Reports</a>
+            {% if user.role == 'admin' %}
+            <a class="hover:text-slate-700" href="/accounts">Accounts</a>
+            <a class="hover:text-slate-700" href="/categories">Categories</a>
+            <a class="hover:text-slate-700" href="/admin/users">Users</a>
+            {% endif %}
+          </nav>
+          <div class="text-sm text-slate-600">
+            {{ user.name }} ({{ user.role }})
+            <a class="ml-3 text-slate-500 hover:text-slate-700" href="/logout">Logout</a>
+          </div>
+          {% endif %}
+        </div>
+      </header>
+
+      <main class="max-w-6xl mx-auto px-6 py-8">
+        {% if message %}
+        <div class="mb-4 rounded bg-emerald-50 text-emerald-800 px-4 py-3">
+          {{ message }}
+        </div>
+        {% endif %}
+        {% if error %}
+        <div class="mb-4 rounded bg-rose-50 text-rose-800 px-4 py-3">
+          {{ error }}
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </body>
+</html>

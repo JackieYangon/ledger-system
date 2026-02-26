@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow rounded p-6">
+  <h1 class="text-xl font-semibold mb-4">Login</h1>
+  <form method="post" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium">Email</label>
+      <input name="email" type="email" class="mt-1 w-full border rounded px-3 py-2" required />
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Password</label>
+      <input name="password" type="password" class="mt-1 w-full border rounded px-3 py-2" required />
+    </div>
+    <button class="w-full bg-slate-900 text-white py-2 rounded" type="submit">Login</button>
+  </form>
+  <p class="mt-4 text-sm text-slate-600">First time? <a class="text-slate-900 underline" href="/register">Create admin account</a></p>
+</div>
+{% endblock %}

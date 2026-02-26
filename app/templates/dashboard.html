@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-3 gap-6 mb-8">
+  <div class="bg-white shadow rounded p-5">
+    <div class="text-sm text-slate-500">Monthly Income</div>
+    <div class="text-2xl font-semibold">{{ income }}</div>
+  </div>
+  <div class="bg-white shadow rounded p-5">
+    <div class="text-sm text-slate-500">Monthly Expense</div>
+    <div class="text-2xl font-semibold">{{ expense }}</div>
+  </div>
+  <div class="bg-white shadow rounded p-5">
+    <div class="text-sm text-slate-500">Balance</div>
+    <div class="text-2xl font-semibold">{{ balance }}</div>
+  </div>
+</div>
+
+<div class="bg-white shadow rounded p-6">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold">Budget Overview</h2>
+    <a class="text-sm underline" href="/budgets">Manage</a>
+  </div>
+  {% if budget_summaries %}
+  <div class="space-y-3">
+    {% for item in budget_summaries %}
+    <div class="border rounded p-3">
+      <div class="flex justify-between">
+        <div>
+          <div class="font-medium">{{ item.budget.name }}</div>
+          <div class="text-xs text-slate-500">{{ item.budget.start_date }} to {{ item.budget.end_date }}</div>
+        </div>
+        <div class="text-sm">
+          Spent {{ '%.2f'|format(item.spent / 100) }} / {{ '%.2f'|format(item.budget.amount_cents / 100) }}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-sm text-slate-500">No budgets yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

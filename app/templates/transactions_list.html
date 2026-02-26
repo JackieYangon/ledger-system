@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex items-center justify-between mb-4">
+  <h1 class="text-xl font-semibold">Transactions</h1>
+  {% if user.role != 'readonly' %}
+  <a class="bg-slate-900 text-white px-4 py-2 rounded" href="/transactions/new">New Transaction</a>
+  {% endif %}
+</div>
+
+<div class="bg-white shadow rounded p-4 mb-6">
+  <form method="get" class="grid grid-cols-6 gap-3 text-sm">
+    <input class="border rounded px-2 py-1" type="date" name="start_date" value="{{ request.query_params.get('start_date','') }}" />
+    <input class="border rounded px-2 py-1" type="date" name="end_date" value="{{ request.query_params.get('end_date','') }}" />
+    <select class="border rounded px-2 py-1" name="category_id">
+      <option value="">All categories</option>
+      {% for cat in categories %}
+      <option value="{{ cat.id }}" {% if request.query_params.get('category_id') == cat.id|string %}selected{% endif %}>{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+    <select class="border rounded px-2 py-1" name="account_id">
+      <option value="">All accounts</option>
+      {% for acc in accounts %}
+      <option value="{{ acc.id }}" {% if request.query_params.get('account_id') == acc.id|string %}selected{% endif %}>{{ acc.name }}</option>
+      {% endfor %}
+    </select>
+    <input class="border rounded px-2 py-1" type="text" name="q" placeholder="Search note or tags" value="{{ request.query_params.get('q','') }}" />
+    <button class="bg-slate-900 text-white rounded px-3 py-1" type="submit">Filter</button>
+    <input class="border rounded px-2 py-1" type="text" name="min_amount" placeholder="Min" value="{{ request.query_params.get('min_amount','') }}" />
+    <input class="border rounded px-2 py-1" type="text" name="max_amount" placeholder="Max" value="{{ request.query_params.get('max_amount','') }}" />
+    <a class="text-slate-700 underline" href="/export?{{ request.url.query }}">Export CSV</a>
+  </form>
+</div>
+
+<div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Income</div>
+    <div class="text-lg font-semibold">{{ income }}</div>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Expense</div>
+    <div class="text-lg font-semibold">{{ expense }}</div>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Balance</div>
+    <div class="text-lg font-semibold">{{ balance }}</div>
+  </div>
+</div>
+
+<div class="bg-white shadow rounded overflow-x-auto">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50 text-slate-500">
+      <tr>
+        <th class="text-left px-4 py-2">Date</th>
+        <th class="text-left px-4 py-2">Type</th>
+        <th class="text-left px-4 py-2">Amount</th>
+        <th class="text-left px-4 py-2">Category</th>
+        <th class="text-left px-4 py-2">Account</th>
+        <th class="text-left px-4 py-2">Note</th>
+        <th class="text-left px-4 py-2">User</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tx in transactions %}
+      <tr class="border-t">
+        <td class="px-4 py-2">{{ tx.occurred_at }}</td>
+        <td class="px-4 py-2">{{ tx.type }}</td>
+        <td class="px-4 py-2">{{ '%.2f'|format(tx.amount_cents/100) }}</td>
+        <td class="px-4 py-2">{{ tx.category.name }}</td>
+        <td class="px-4 py-2">{{ tx.account.name }}</td>
+        <td class="px-4 py-2">{{ tx.note or '' }} {{ tx.tags or '' }}</td>
+        <td class="px-4 py-2">{{ tx.user.name }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="px-4 py-6 text-center text-slate-500">No transactions</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

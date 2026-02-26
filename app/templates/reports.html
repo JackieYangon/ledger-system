@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-4">Reports</h1>
+
+<div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Month Income</div>
+    <div class="text-lg font-semibold">{{ month_income }}</div>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Month Expense</div>
+    <div class="text-lg font-semibold">{{ month_expense }}</div>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Month Balance</div>
+    <div class="text-lg font-semibold">{{ month_balance }}</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Year Income</div>
+    <div class="text-lg font-semibold">{{ year_income }}</div>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Year Expense</div>
+    <div class="text-lg font-semibold">{{ year_expense }}</div>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <div class="text-xs text-slate-500">Year Balance</div>
+    <div class="text-lg font-semibold">{{ year_balance }}</div>
+  </div>
+</div>
+
+<div class="bg-white shadow rounded p-4">
+  <h2 class="font-medium mb-2">Expense by Category (This Month)</h2>
+  <div class="space-y-2">
+    {% for name, total in category_breakdown %}
+    <div class="flex justify-between text-sm">
+      <span>{{ name }}</span>
+      <span>{{ '%.2f'|format(total/100) }}</span>
+    </div>
+    {% else %}
+    <div class="text-slate-500 text-sm">No expenses yet.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

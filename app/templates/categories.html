@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-4">Categories</h1>
+<div class="grid grid-cols-2 gap-6">
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="font-medium mb-2">Add Category</h2>
+    <form method="post" class="space-y-3">
+      <input name="name" class="w-full border rounded px-3 py-2" placeholder="Category name" required />
+      <select name="type" class="w-full border rounded px-3 py-2" required>
+        <option value="expense">Expense</option>
+        <option value="income">Income</option>
+      </select>
+      <button class="bg-slate-900 text-white px-4 py-2 rounded" type="submit">Add</button>
+    </form>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="font-medium mb-2">Existing</h2>
+    <ul class="space-y-2 text-sm">
+      {% for cat in categories %}
+      <li class="flex justify-between border-b pb-2">
+        <span>{{ cat.name }}</span>
+        <span class="text-slate-500">{{ cat.type }}</span>
+      </li>
+      {% else %}
+      <li class="text-slate-500">No categories yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

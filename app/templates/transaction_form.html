@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-xl bg-white shadow rounded p-6">
+  <h1 class="text-xl font-semibold mb-4">New Transaction</h1>
+  <form method="post" class="space-y-4">
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium">Type</label>
+        <select name="type" class="mt-1 w-full border rounded px-3 py-2" required>
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Amount</label>
+        <input name="amount" class="mt-1 w-full border rounded px-3 py-2" required />
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Date</label>
+      <input name="occurred_at" type="date" value="{{ today }}" class="mt-1 w-full border rounded px-3 py-2" required />
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium">Category</label>
+        <select name="category_id" class="mt-1 w-full border rounded px-3 py-2" required>
+          {% for cat in categories %}
+          <option value="{{ cat.id }}">{{ cat.name }} ({{ cat.type }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Account</label>
+        <select name="account_id" class="mt-1 w-full border rounded px-3 py-2" required>
+          {% for acc in accounts %}
+          <option value="{{ acc.id }}">{{ acc.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Note</label>
+      <input name="note" class="mt-1 w-full border rounded px-3 py-2" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Tags (comma separated)</label>
+      <input name="tags" class="mt-1 w-full border rounded px-3 py-2" />
+    </div>
+    <button class="bg-slate-900 text-white px-4 py-2 rounded" type="submit">Save</button>
+  </form>
+</div>
+{% endblock %}

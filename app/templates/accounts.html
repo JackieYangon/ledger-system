@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-4">Accounts</h1>
+<div class="grid grid-cols-2 gap-6">
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="font-medium mb-2">Add Account</h2>
+    <form method="post" class="space-y-3">
+      <input name="name" class="w-full border rounded px-3 py-2" placeholder="Account name" required />
+      <input name="type" class="w-full border rounded px-3 py-2" placeholder="Type (cash/bank/card)" />
+      <input name="currency" class="w-full border rounded px-3 py-2" placeholder="Currency" value="CNY" />
+      <button class="bg-slate-900 text-white px-4 py-2 rounded" type="submit">Add</button>
+    </form>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="font-medium mb-2">Existing</h2>
+    <ul class="space-y-2 text-sm">
+      {% for acc in accounts %}
+      <li class="flex justify-between border-b pb-2">
+        <span>{{ acc.name }}</span>
+        <span class="text-slate-500">{{ acc.type }} · {{ acc.currency }}</span>
+      </li>
+      {% else %}
+      <li class="text-slate-500">No accounts yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

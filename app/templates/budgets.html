@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-4">Budgets</h1>
+<div class="grid grid-cols-2 gap-6">
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="font-medium mb-2">Create Budget</h2>
+    <form method="post" class="space-y-3">
+      <input name="name" class="w-full border rounded px-3 py-2" placeholder="Budget name" required />
+      <select name="period" class="w-full border rounded px-3 py-2" required>
+        <option value="monthly">Monthly</option>
+        <option value="yearly">Yearly</option>
+      </select>
+      <input name="amount" class="w-full border rounded px-3 py-2" placeholder="Amount" required />
+      <div class="grid grid-cols-2 gap-2">
+        <input name="start_date" type="date" class="border rounded px-3 py-2" required />
+        <input name="end_date" type="date" class="border rounded px-3 py-2" required />
+      </div>
+      <select name="category_id" class="w-full border rounded px-3 py-2">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+        <option value="{{ cat.id }}">{{ cat.name }} ({{ cat.type }})</option>
+        {% endfor %}
+      </select>
+      <button class="bg-slate-900 text-white px-4 py-2 rounded" type="submit">Add</button>
+    </form>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="font-medium mb-2">Existing</h2>
+    <div class="space-y-3">
+      {% for item in budgets %}
+      <div class="border rounded p-3 text-sm">
+        <div class="font-medium">{{ item.budget.name }}</div>
+        <div class="text-slate-500">{{ item.budget.start_date }} to {{ item.budget.end_date }}</div>
+        <div class="mt-2">Spent {{ '%.2f'|format(item.spent/100) }} / {{ '%.2f'|format(item.budget.amount_cents/100) }}</div>
+      </div>
+      {% else %}
+      <div class="text-slate-500">No budgets yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

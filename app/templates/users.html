@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-4">Users</h1>
+<div class="grid grid-cols-2 gap-6">
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="font-medium mb-2">Create User</h2>
+    <form method="post" class="space-y-3">
+      <input name="name" class="w-full border rounded px-3 py-2" placeholder="Name" required />
+      <input name="email" type="email" class="w-full border rounded px-3 py-2" placeholder="Email" required />
+      <input name="password" type="password" class="w-full border rounded px-3 py-2" placeholder="Password" required />
+      <select name="role" class="w-full border rounded px-3 py-2" required>
+        <option value="user">User</option>
+        <option value="readonly">Read-only</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button class="bg-slate-900 text-white px-4 py-2 rounded" type="submit">Add</button>
+    </form>
+  </div>
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="font-medium mb-2">Existing</h2>
+    <ul class="space-y-2 text-sm">
+      {% for member in users %}
+      <li class="flex justify-between border-b pb-2">
+        <span>{{ member.name }} ({{ member.email }})</span>
+        <span class="text-slate-500">{{ member.role }}</span>
+      </li>
+      {% else %}
+      <li class="text-slate-500">No users yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
